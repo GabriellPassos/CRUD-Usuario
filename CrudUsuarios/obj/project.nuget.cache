@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "I2+GlRtphXoq3x1/onMqXHE6QaF3Mh4I3ii5cQIerZuOcSFwCLSwWgYyglS+erfO0nzMfE+kr6xCyerTq8+9og==",
+  "dgSpecHash": "QkH1VptYX4wg1d5eBGq/PTfEPvdqVyUOOPmMHqnJeP6G/78s011nVCfeGyhemCOuhXl7eqCOWGkViQKgyFjPkg==",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\Desktop\\crud-usuarios\\CrudUsuarios\\CrudUsuarios.csproj",
   "expectedPackageFiles": [
@@ -21,6 +21,7 @@
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.18.1\\microsoft.visualstudio.azure.containers.tools.targets.1.18.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\npgsql\\7.0.4\\npgsql.7.0.4.nupkg.sha512",
