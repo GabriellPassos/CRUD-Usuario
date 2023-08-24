@@ -1,22 +1,18 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["CrudUsuarios.csproj", "."]
-RUN dotnet restore "./CrudUsuarios.csproj"
-COPY . .
-WORKDIR "/src/."
-RUN dotnet build "CrudUsuarios.csproj" -c Release -o /app/build
+ENV ASPNETCORE_URLS=http://+:80;
+ENV ASPNETCORE_HTTP_PORT=http://+:80;
+ENV ASPNETCORE_ENVIRONMENT=Development
 
-FROM build AS publish
-RUN dotnet publish "CrudUsuarios.csproj" -c Release -o /app/publish /p:UseAppHost=false
+COPY . ./
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+WORKDIR /App
+COPY --from=build-env /App/out .
 ENTRYPOINT ["dotnet", "CrudUsuarios.dll"]
