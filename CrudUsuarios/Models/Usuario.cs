@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CrudUsuarios.Services;
+using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace CrudUsuarios.Models
 {
-    public class Usuario
+    public class Usuario 
     {
         [Required]
         [MinLength(4)]
@@ -30,9 +32,11 @@ namespace CrudUsuarios.Models
             Nascimento = nascimento;
             Cpf = cpf;
             Cep = cep;
-        }
 
+
+        }
     }
+
     public class DateRangeAttribute : RangeAttribute
     {
         public DateRangeAttribute(string minimum) : base(typeof(DateTime), minimum, DateTime.Now.ToShortDateString())

@@ -1,7 +1,9 @@
 ﻿using CrudUsuarios.Models;
 using CrudUsuarios.Services;
+using CrudUsuarios.Validation;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-
+using Serilog;
 
 namespace CrudUsuarios
 {
@@ -11,87 +13,117 @@ namespace CrudUsuarios
         {
             app.MapGet("/", () =>
             {
-                return Results.BadRequest("Odsadasdas");
+                Log.Information("GET -> Rota '/'");
+                return Results.Ok("Home");
             });
 
             app.MapPost("usuario", ([FromBody] Usuario usuario, UsuarioService usuarioService) =>
             {
                 try
                 {
-                    Usuario novoUsuario = usuarioService.Novo(usuario).Result;
-                    if (novoUsuario != null)
+                    Log.Information("POST -> /usuario");
+                    Resultado resultado = usuarioService.Novo(usuario).Result;
+                    if (!resultado.Sucesso)
                     {
-                        return Results.Ok(novoUsuario);
+                        return Results.BadRequest(resultado);
                     }
+                    return Results.Ok(resultado);
                 }
                 catch (Exception e)
                 {
-
-                    return Results.BadRequest(e.Message);
-
+                    Log.Error("Erro: (POST -> /usuario)", e.Message);
+                    return Results.StatusCode(500);
                 }
-                return Results.BadRequest();
             });
             app.MapGet("usuario/cpf", ([FromQuery] string cpf, UsuarioService usuarioService) =>
             {
                 try
                 {
-                    Usuario usuario = usuarioService.buscarPorCpf(cpf);
-
-                    return Results.Ok(usuario);
+                    Log.Information("GET -> /usuario/cpf");
+                    Resultado resultado = usuarioService.buscarPorCpf(cpf);
+                    if (!resultado.Sucesso)
+                    {
+                        return Results.BadRequest(resultado);
+                    }
+                    return Results.Ok(resultado);
+                
                 }
                 catch (Exception e)
                 {
-
-                    return Results.BadRequest(e.Message);
+                    Log.Information("Erro: (GET -> /usuario/cpf) ", e.Message);
+                    return Results.StatusCode(500);
                 }
             });
             app.MapGet("usuario/cep", ([FromQuery] string cep, UsuarioService usuarioService) =>
             {
                 try
                 {
-                    Usuario usuario = usuarioService.buscarPorCep(cep);
-
-                    return Results.Ok(usuario);
+                    Log.Information("GET -> /usuario/cep");
+                    Resultado resultado = usuarioService.buscarPorCep(cep);
+                    if (!resultado.Sucesso)
+                    {
+                        return Results.BadRequest(resultado);
+                    }
+                    return Results.Ok(resultado);
                 }
                 catch (Exception e)
                 {
-
-                    return Results.BadRequest(e.Message);
+                    Log.Information("Erro: (GET -> /usuario/cep) ", e.Message);
+                    return Results.StatusCode(500);
                 }
             });
             app.MapGet("usuarios", (UsuarioService usuarioService) =>
             {
-                return Results.Ok(usuarioService.buscarTodos());
+                try
+                {
+                    Log.Information("GET -> /usuarios");
+                    Resultado  resultado = usuarioService.buscarTodos();
+                    if (!resultado.Sucesso)
+                    {
+                        return Results.BadRequest(resultado);
+                    }
+                    return Results.Ok(resultado);
+                }
+                catch (Exception e)
+                {
+                    Log.Information("Erro: (GET -> /usuarios) ", e.Message);
+                    return Results.StatusCode(500);
+                }
             });
             app.MapPatch("usuario", ([FromBody] Usuario usuario, UsuarioService usuarioService) =>
             {
                 try
                 {
-                    Usuario usuarioEditado = usuarioService.Editar(usuario).Result;
-                    if (usuarioEditado != null)
+                    Log.Information("PATCH -> /usuario");
+                    Resultado resultado = usuarioService.Editar(usuario).Result;
+                    if (!resultado.Sucesso)
                     {
-                        return Results.Ok(usuarioEditado);
+                        return Results.BadRequest(resultado);
                     }
+                    return Results.Ok(resultado);
                 }
                 catch (Exception e)
                 {
-
-                    return Results.BadRequest(e.Message);
-
+                    Log.Information("Erro: (PATCH -> /usuario) ", e.Message);
+                    return Results.StatusCode(500);
                 }
-                return Results.BadRequest();
             });
             app.MapDelete("usuario", ([FromQuery] string cpf, UsuarioService usuarioService) =>
             {
                 try
                 {
-                    usuarioService.Remover(cpf);
-                    return Results.Ok("Usuário removido.");
+                    Log.Information("DELETE -> /usuario");
+                    Resultado resultado = usuarioService.Remover(cpf);
+                    if (!resultado.Sucesso)
+                    {
+                        return Results.BadRequest(resultado);
+                    }
+                    return Results.Ok(resultado);
                 }
                 catch (Exception e)
                 {
-                    return Results.BadRequest(e.Message);
+                    Log.Information("Erro: (DELETE -> /usuario) ", e.Message);
+                    return Results.StatusCode(500);
                 }
             });
         }
